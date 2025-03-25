@@ -17,4 +17,4 @@ A **FastAPI + React** web app that analyzes code quality and provides **metrics,
 ### **1️⃣ Clone the Repository**
 ```sh
 git clone https://github.com/jatin435143/intern_project_new.git
-cd intern_project
+cd intern_project_new
