@@ -1,0 +1,11 @@
+# Ignore node_modules (prevents thousands of files from being tracked)
+node_modules/
+package-lock.json
+
+# Ignore Python cache and virtual environments
+venv/
+__pycache__/
+
+# Ignore system files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pylint
+flake8
+radon
+fastapi
+uvicorn
+pylint
+flake8
+radon

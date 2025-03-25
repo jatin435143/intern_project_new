@@ -1,0 +1,57 @@
+name: Code Quality Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+
+      - name: Install Python Dependencies
+        run: |
+          pip install pylint fastapi uvicorn
+
+      - name: Run Pylint (Python Code Quality)
+        run: |
+          pylint backend/*.py --disable=all --enable=convention > pylint_report.txt || true
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install JavaScript Dependencies
+        run: |
+          npm install eslint --global
+          npm install
+
+      - name: Run ESLint (JavaScript Code Quality)
+        run: |
+          eslint frontend/src --format compact > eslint_report.txt || true
+
+      - name: Upload Lint Reports as Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: lint-reports
+          path: |
+            pylint_report.txt
+            eslint_report.txt
+
+      - name: Post PR Comment with Lint Results
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            📝 **Code Quality Report**
+            - **Python Pylint Results**: $(cat pylint_report.txt)
+            - **JavaScript ESLint Results**: $(cat eslint_report.txt)
